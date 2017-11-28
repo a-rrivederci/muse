@@ -1,0 +1,10 @@
+{
+  "name": "Muse-Backend",
+  "description": "Text to Speech BackEnd",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "connect": "^3.6.5",
+    "express": "3.x"
+  }
+}
