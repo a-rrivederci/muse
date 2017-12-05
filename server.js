@@ -8,6 +8,13 @@ var multer  = require('multer');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.all('*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
+
 app.get('/file_load', function (req, res) {
     res.sendFile( __dirname + "/" + "index.htm" );
 })
@@ -29,7 +36,9 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 app.post('/file_upload', upload.any(), function (req, res, next) {
+    console.log(req.files);
     res.send(req.files);
-})
+});
+
 app.listen(port);
 console.log('The server is running on: ' + port);
