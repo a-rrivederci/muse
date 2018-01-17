@@ -57,8 +57,8 @@ app.post('/file_upload', upload.single('Image'), function (req, res) {
 
 function RunPython(req,res)
 {
-    let cryptFile = req.file.path;
-    let cryptFileName = req.file.filename;
+    var cryptFile = req.file.path;
+    var cryptFileName = req.file.filename;
     //req.file.filename;
     console.log(' ');
     console.log(cryptFile);
