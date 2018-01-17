@@ -4,9 +4,14 @@ var fs = require("fs");
 var port = process.env.PORT || 8080;
 var bodyParser = require('body-parser');
 var multer  = require('multer');
+var PythonShell = require('python-shell');
 
 app.use(express.static('public'));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true}));
+
+//var cryptFile = sendFileName();
+
 
 app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -14,6 +19,11 @@ app.all('*', function(req, res, next) {
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
 });
+
+app.get('/',function(req,res){
+    res.send("Hello The application is running!")
+    
+})
 
 app.get('/file_load', function (req, res) {
     res.sendFile( __dirname + "/" + "index.htm" );
@@ -35,10 +45,51 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-app.post('/file_upload', upload.any(), function (req, res, next) {
-    console.log(req.files);
-    res.send(req.files);
+app.post('/file_upload', upload.single('Image'), function (req, res) {
+    
+    console.log(req.file);
+    res.send(req.file);
+    res.send(req.file);
+    req.file.f
+    RunPython(req,res);
+    
 });
+
+function RunPython(req,res)
+{
+    let cryptFile = req.file.path;
+    let cryptFileName = req.file.filename;
+    //req.file.filename;
+    console.log(' ');
+    console.log(cryptFile);
+    console.log(' ');
+    //Executing the Python Script
+    
+    var options = {
+        mode: 'text',
+        pythonPath: '/usr/bin/python3',
+        pythonOptions: ['-u'],
+        scriptPath: '/home/ubuntu/muse/src',
+        args: ['/home/ubuntu/muse-server' + cryptFile]
+    }
+    
+    PythonShell.run('main.py', options, function(err,results)
+    {
+        if(err) 
+            console.log(err);
+        else
+            console.log(results);
+            sendAudio(cryptFileName);
+    })
+}
+
+function sendAudio(cryptFileName)
+{
+    var cryptFileName1 = cryptFileName.replace('.jpg', '.mp3')
+    app.get('/retrive', function(req,res){
+        res.download('./audio/' + cryptFileName1);
+    });
+}
 
 app.listen(port);
 console.log('The server is running on: ' + port);
