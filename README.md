@@ -1,3 +1,5 @@
-# Muse Server
+# Muse
 
-This will be the backend Server that will take on the functionalities of the muse application!
+Muse is a Web application that executes Text to speech on the Fly.
+
+

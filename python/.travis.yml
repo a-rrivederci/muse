@@ -1,0 +1,18 @@
+language: python
+python:
+  - nightly
+  
+install:
+  - sudo apt-get install tesseract-ocr
+  - pip install -r requirements.txt
+  
+script:
+  - python src/main.py images/sample2.png
+
+notifications:
+  email: false
+  slack:
+    rooms:
+      - attackle:nt8wLA75ZhhyZAok09bwgtse
+    on_success: change
+    on_failure: change
