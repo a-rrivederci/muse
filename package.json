@@ -1,6 +1,6 @@
 {
-  "name": "Muse-Backend",
-  "description": "Text to Speech BackEnd",
+  "name": "Muse",
+  "description": "Text to Speech Application",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
