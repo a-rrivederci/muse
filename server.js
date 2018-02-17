@@ -27,17 +27,11 @@ var upload = multer({storage: storage});
 
 app.use(express.static("views"));
 
-//Viewed at Localhost:8080/
-// app.get('/',function(req,res){
-//     res.sendFile(path + 'blank.html');    
-// });
-
 app.post('/file_upload', upload.single('Image'), function (req,res,err) {    
     console.log(req.file);
     var imgLocation = req.file.path
     console.log(imgLocation);
     var imagePath = __dirname + '/' + imgLocation;
-    //res.sendFile(__dirname + '/'+ imgLocation);
     app.get('/image',function(req,res) {
         var img = fs.readFileSync(imagePath);
         res.writeHead(200,{'Content-Type': 'image/png'});
@@ -48,11 +42,11 @@ app.post('/file_upload', upload.single('Image'), function (req,res,err) {
 });
 
 app.get('/retrive', function(req,res){
-    // download mp3
+    // Download mp3
     var audioLocation = './audio/Text.mp3'
     res.download(audioLocation);
 
-    // cleanup images
+    // Cleanup images
     fs.readdir('uploads', (err, files) => {
         if (err) throw err;
 
@@ -63,7 +57,7 @@ app.get('/retrive', function(req,res){
         }
     });
 
-    // clean mp3 file
+    // Clean mp3 file
     fs.readdir('audio', (err, files) => {
         if (err) throw err;
 
